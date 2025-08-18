@@ -114,3 +114,13 @@ def get_llm_response(chat_message):
     st.session_state.chat_history.extend([HumanMessage(content=chat_message), llm_response["answer"]])
 
     return llm_response
+
+
+def build_file_info_with_page(source: str, page: int | None) -> str:
+    """
+    表示用のファイルパスを作る。PDF かつ page がある場合のみ（ページNo.X）を付与。
+    LangChainのpageは0始まりなので+1して表示します。
+    """
+    if isinstance(page, int) and source.lower().endswith(".pdf"):
+        return f"{source}（ページNo.{page + 1}）"
+    return source
